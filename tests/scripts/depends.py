@@ -561,8 +561,11 @@ class DomainData:
             # across various modules, but it depends on either SHA256 or SHA512.
             # As a consequence an "exclusive" test of anything other than SHA256
             # or SHA512 with MBEDTLS_ENTROPY_C enabled is not possible.
+            # Note for update: when MBEDTLS_SHA3_C is removed the mutual_exclusion
+            # argument must be removed.
             'hashes': DualDomain(hash_symbols, build_and_test,
                                  exclude=r'PSA_WANT_ALG_(?!SHA_(256|512))',
+                                 mutual_exclusion=[r'PSA_WANT_ALG_SHA3_']),
             # Key exchange types.
             'kex': ExclusiveDomain(key_exchange_symbols, build_and_test),
             'pkalgs': ComplementaryDomain(['MBEDTLS_ECDSA_C',
